@@ -34,6 +34,8 @@
 #include <iostream>
 #include <iomanip>
 
+namespace cplxfnc {
+
 std::complex<double> zeta(std::complex<double> s, std::complex<double> a)
 {
     return zeta(s, a, 1e-16, 5, false);
@@ -111,3 +113,5 @@ int zeta(std::complex<double> s, std::complex<double> a, std::complex<double> * 
         }
     }
 }
+
+} /* namespace cplxfnc */

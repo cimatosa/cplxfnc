@@ -40,7 +40,7 @@ int check_values(){
     unsigned int limit = 1;
 
     try {
-        res = zeta(2., 1. - I*1234., tol, limit, true);
+        res = cplxfnc::zeta(2., 1. - I*1234., tol, limit, true);
     } catch  (const std::runtime_error& e) {
         std::cout << "\nI guess you have arb version prior to 2.9. installed" <<
                      "\nupdating yields a slight efficiency improvement!\n";
@@ -71,7 +71,7 @@ int check_values(){
         a         = data[i][2] + I*data[i][3];
         res_check = data[i][4] + I*data[i][5];
 
-        res = zeta(s, a, tol, limit, true);
+        res = cplxfnc::zeta(s, a, tol, limit, true);
         d = fabs(res.real() - res_check.real());
         if (d > tol){
             std::cout << "\nERROR (real part)\n" <<
@@ -111,7 +111,7 @@ int check_call_error()
     s = 1.00000004 + I*10.;
     a = 1.e6 + I*1.e6;
 
-    int status = zeta(s, a, &res, tol, 1, false);
+    int status = cplxfnc::zeta(s, a, &res, tol, 1, false);
     if (status == 0) {
         std::cout << "\nERROR (limit should have been reached)\n" <<
         "expect zeta to return other than 0 return code!" << std::endl;
@@ -121,7 +121,7 @@ int check_call_error()
 
     bool got_exception = false;
     try {
-        res = zeta(s, a, tol, 1, false);
+        res = cplxfnc::zeta(s, a, tol, 1, false);
     } catch (const std::runtime_error& e) {
         got_exception = true;
     }
@@ -140,9 +140,9 @@ int check_call_overloads()
 {
     std::cout << "check call overloads ... ";
     std::complex<double> res;
-    zeta(2, 1, &res, 1e-16, 1, false);
-    zeta(2, 1, 1e-16, 1, false);
-    zeta(2, 1);
+    cplxfnc::zeta(2, 1, &res, 1e-16, 1, false);
+    cplxfnc::zeta(2, 1, 1e-16, 1, false);
+    cplxfnc::zeta(2, 1);
     std::cout << "done\n";
     return 0;
 }

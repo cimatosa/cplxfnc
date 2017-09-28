@@ -27,9 +27,13 @@
 
 #include <complex>
 
+namespace cplxfnc {
+
 std::complex<double> zeta(std::complex<double> s, std::complex<double> a);
 std::complex<double> zeta(std::complex<double> s, std::complex<double> a, double tol, unsigned int limit, bool verbose);
 int zeta(std::complex<double> s, std::complex<double> a, std::complex<double> *res, double tol,
          unsigned int limit, bool verbose);
+
+}
 
 #endif

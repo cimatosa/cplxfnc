@@ -11,15 +11,18 @@ This package provides an interface for c++ as well as python.
 ## wrapped functions:
 
 * Hurwitz zeta function
+
+more to follow
   
 ## building the c++ code:  
 
 The arb library needs to be installed. See http://arblib.org/setup.html for instructions. 
-On Debian you may install `libflint-arb-dev`.
+On Debian you may install `libflint-arb-dev` (included since Debian 9 or Ubuntu 17.04).
     
 Then simply run the make script by typing
        
     cd ./cplxfnc_clib
+    ./configure
     make
     
 To install type `make install` (root permission). You also may run sanity checks: `make check`.
