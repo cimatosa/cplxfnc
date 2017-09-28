@@ -1,16 +1,17 @@
 PREFIX  =  /usr
-CC      = /usr/bin/g++
+CXX      = @CXX@
 CFLAGS  = -Wall -O3 -std=c++11
-LDFLAGS = -lm -larb -lflint
+LDFLAGS = @LIBS@
 
 
 cplxfnc_check: cplxfnc_check.cpp cplxfnc.o
-	$(CC) -o cplxfnc_check $(CFLAGS) cplxfnc_check.cpp cplxfnc.o $(LDFLAGS)
+	$(CXX) -o cplxfnc_check $(CFLAGS) cplxfnc_check.cpp cplxfnc.o $(LDFLAGS)
 
 
 cplxfnc.o: cplxfnc.cpp
-	$(CC) -c -o cplxfnc.o $(LDFLAGS) $(CFLAGS) -fPIC cplxfnc.cpp
-	$(CC) -shared -o libcplxfnc.so cplxfnc.o
+	$(CXX) -c -o cplxfnc.o $(LDFLAGS) $(CFLAGS) -fPIC cplxfnc.cpp
+	$(CXX) -shared -o libcplxfnc.so cplxfnc.o
+
 
 .PHONY: check
 check:
@@ -18,7 +19,9 @@ check:
 
 .PHONY: clean
 clean:
-	rm -v -rf *.o *.so
+	rm -v -rf *.o *.so *.log
+	rm -v -rf config.h config.status
+	rm -v -rf autom4te.cache
 
 .PHONY: install
 install:
