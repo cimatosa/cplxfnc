@@ -40,7 +40,7 @@ int check_values(){
     unsigned int limit = 1;
 
     try {
-        res = zeta(2., 1 - I*1234., tol, limit, true);
+        res = zeta(2., 1. - I*1234., tol, limit, true);
     } catch  (const std::runtime_error& e) {
         std::cout << "\nI guess you have arb version prior to 2.9. installed" <<
                      "\nupdating yields a slight efficiency improvement!\n";
