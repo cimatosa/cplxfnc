@@ -37,6 +37,15 @@ int check_values(){
     double tol = 1e-16;
     const std::complex<double> I(0, 1);
 
+    unsigned int limit = 1;
+
+    try {
+        res = zeta(2., 1 - I*1234., tol, limit, true);
+    } catch  (const std::runtime_error& e) {
+        std::cout << "\nI guess you have arb version prior to 2.9. installed" <<
+                     "\nupdating yields a slight efficiency improvement!\n";
+        limit = 2;
+    }
 
     double data [18][6] = { {2. , 0., 1.,    0. , M_PI*M_PI/6, 0},
                             {2. , 0., 1.,    1. ,  4.63000096622763786e-1, -7.94233542759318865e-1},
