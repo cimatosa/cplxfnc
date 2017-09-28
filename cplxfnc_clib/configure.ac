@@ -11,7 +11,7 @@ AC_PROG_CC
 # Checks for libraries.
 AC_CHECK_LIB([m], [exp],,AC_MSG_ERROR([Unable to find math library (libm)]))
 AC_CHECK_LIB([flint], [fmpz_init],,AC_MSG_ERROR([Unable to find flint library (libflint)]))
-#AC_SEARCH_LIBS([acb_hurwitz_zeta],[arb flint-arb],,AC_MSG_ERROR([Unable to find arb library (libarb or libflint-arb)]))
+AC_SEARCH_LIBS([acb_hurwitz_zeta],[arb flint-arb],,AC_MSG_ERROR([Unable to find arb library (libarb or libflint-arb)]))
 
 # Checks for header files.
 
