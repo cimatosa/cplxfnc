@@ -8,20 +8,18 @@ is increased until the result has converged to double precision.
 
 This package provides an interface for c++ as well as python.
 
-wrapped functions:
+## wrapped functions:
 
-  * Hurwitz zeta function
+* Hurwitz zeta function
   
-building the c++ code:
+## building the c++ code:  
+
+The arb library needs to be installed. See http://arblib.org/setup.html for instructions. 
+On Debian you may install `libflint-arb-dev`.
     
-    The arb library needs to be installed. See http://arblib.org/setup.html for instructions. 
-    On Debian you may install `libflint-arb-dev`.
-    
-    Then simply run the make script by typing
-    
-    ```
+Then simply run the make script by typing
+       
     cd ./cplxfnc_clib
     make
-    ```
     
-    To install type `make install` (root permission). You also may run sanity checks: `make check`.
+To install type `make install` (root permission). You also may run sanity checks: `make check`.
