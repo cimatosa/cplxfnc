@@ -13,7 +13,7 @@ This package provides an interface for c++ as well as python.
 * Hurwitz zeta function
 
 more to follow
-  
+
 ## building the c++ code:  
 
 The arb library needs to be installed. See http://arblib.org/setup.html for instructions. 
@@ -26,3 +26,21 @@ Then simply run the make script by typing
     make
     
 To install type `make install` (root permission). You also may run sanity checks: `make check`.
+
+## install python extention
+
+Running the `setup.py` script as follows builds and installs the the python package `cplxfnc`.
+Note, the build process needs the shared libraries for flint (`libflint`) and arb (`libarb`, or when installed from
+linux package `libflint-arb`).
+
+    python setup.py build
+    python setup.py install
+    
+## example
+
+Once installed, the usage it straight forward.
+
+    >>> import cplxfnc
+    
+    >>> cplxfnc.zeta(s=1+1j, a=3-5j)
+    (-0.3269595185571998+0.04885844807914104j)
