@@ -71,7 +71,7 @@ int check_values(){
         a         = data[i][2] + I*data[i][3];
         res_check = data[i][4] + I*data[i][5];
 
-        res = zeta(s, a, tol, 1, true);
+        res = zeta(s, a, tol, limit, true);
         d = fabs(res.real() - res_check.real());
         if (d > tol){
             std::cout << "\nERROR (real part)\n" <<
