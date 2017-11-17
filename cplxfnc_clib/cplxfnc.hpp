@@ -34,6 +34,11 @@ std::complex<double> zeta(std::complex<double> s, std::complex<double> a, double
 int zeta(std::complex<double> s, std::complex<double> a, std::complex<double> *res, double tol,
          unsigned int limit, bool verbose);
 
+std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z);
+std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z, double tol, unsigned int limit, bool verbose);
+int gamma_inc(std::complex<double> s, std::complex<double> z, std::complex<double> * res, double tol,
+         unsigned int limit, bool verbose);
+
 }
 
 #endif
