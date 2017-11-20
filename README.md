@@ -10,7 +10,8 @@ This package provides an interface for c++ as well as python.
 
 ## wrapped functions:
 
-* Hurwitz zeta function
+* Hurwitz zeta function (zeta)
+* upper incomplete gamma function (gamma_inc)
 
 more to follow
 

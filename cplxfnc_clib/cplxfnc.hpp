@@ -27,6 +27,8 @@
 
 #include <complex>
 
+#define GAMMA_INC_DEFAULT_INIT_PREC 74
+
 namespace cplxfnc {
 
 std::complex<double> zeta(std::complex<double> s, std::complex<double> a);
@@ -35,9 +37,11 @@ int zeta(std::complex<double> s, std::complex<double> a, std::complex<double> *r
          unsigned int limit, bool verbose);
 
 std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z);
-std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z, double tol, unsigned int limit, bool verbose);
+std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z, double tol,
+                               unsigned int limit, bool verbose=false,
+                               unsigned int init_prec=GAMMA_INC_DEFAULT_INIT_PREC);
 int gamma_inc(std::complex<double> s, std::complex<double> z, std::complex<double> * res, double tol,
-         unsigned int limit, bool verbose);
+              unsigned int limit, bool verbose, unsigned int init_prec=GAMMA_INC_DEFAULT_INIT_PREC);
 
 }
 

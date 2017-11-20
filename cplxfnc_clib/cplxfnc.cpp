@@ -129,13 +129,11 @@ std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z)
     return gamma_inc(s, z, 1e-16, 5, false);
 }
 
-std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z, double tol, unsigned int limit, bool verbose)
+std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z, double tol,
+                               unsigned int limit, bool verbose, unsigned int init_prec)
 {
     std::complex<double> res;
-    std::cout << "in gamma_inc" << std::endl;
-    std::cout << "call gamma_inc_with_status" << std::endl;
-    int status = gamma_inc(s, z, &res, tol, limit, verbose);
-    std::cout << "status " << status << std::endl;
+    int status = gamma_inc(s, z, &res, tol, limit, verbose, init_prec);
     if (status == 0) {
         return res;
     } else {
@@ -154,7 +152,7 @@ std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z, d
 }
 
 int gamma_inc(std::complex<double> s, std::complex<double> z, std::complex<double> * res, double tol,
-         unsigned int limit, bool verbose)
+         unsigned int limit, bool verbose, unsigned int init_prec)
 {
     if ((s.real() < 0) && (z.real() == 0) && (z.imag() == 0)){
         if (verbose) {
@@ -168,10 +166,8 @@ int gamma_inc(std::complex<double> s, std::complex<double> z, std::complex<doubl
     acb_set_d_d(_s, s.real(), s.imag());
     acb_set_d_d(_z, z.real(), z.imag());
 
-    unsigned int prec = 16;  /* this value was found to give error
-                                below 1e-16 at least for s and a of the order of one  */
+    unsigned int prec = init_prec;
     unsigned int c = 1;
-
     double res_re, res_re_err, res_im, res_im_err, frac_re, frac_im;
 
     while (1) {
@@ -201,13 +197,13 @@ int gamma_inc(std::complex<double> s, std::complex<double> z, std::complex<doubl
             *res = std::complex<double>(res_re, res_im);
             return 0;
         }
-        prec *= 2;
         c += 1;
         if (c > limit) {
             if (verbose) {
                 std::cerr << "ERROR: inc gamma limit (" << limit << ") reached\n" <<
                 std::setprecision(1) << std::fixed <<
                 "gamma(s, z) with s=" << s << " and z=" << z << std::endl <<
+                "internal prec: " << prec << std::endl <<
                 std::scientific << std::setprecision(2) <<
                 "tol: " << tol << std::endl <<
                 std::scientific << std::setprecision(16) <<
@@ -218,6 +214,7 @@ int gamma_inc(std::complex<double> s, std::complex<double> z, std::complex<doubl
         } else {
             if (verbose) {
                 std::cout << "gamma(s, z) with s=" << s << " and z=" << z << std::endl <<
+                "internal prec: " << prec << std::endl <<
                 std::scientific << std::setprecision(2) <<
                 "tol: " << tol << std::endl <<
                 std::scientific << std::setprecision(16) <<
@@ -227,6 +224,7 @@ int gamma_inc(std::complex<double> s, std::complex<double> z, std::complex<doubl
 
             }
         }
+        prec *= 2;
 
     }
 }
