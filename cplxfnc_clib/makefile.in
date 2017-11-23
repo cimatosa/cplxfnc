@@ -2,10 +2,11 @@ PREFIX  =  /usr
 CXX      = @CXX@
 CFLAGS  = -Wall -O3 -std=c++11
 LDFLAGS = @LIBS@
+exec_check = cplxfnc_check
 
 
 cplxfnc_check: cplxfnc_check.cpp cplxfnc.o
-	$(CXX) -o cplxfnc_check $(CFLAGS) cplxfnc_check.cpp cplxfnc.o $(LDFLAGS)
+	$(CXX) -o $(exec_check) $(CFLAGS) cplxfnc_check.cpp cplxfnc.o $(LDFLAGS)
 
 
 cplxfnc.o: cplxfnc.cpp
@@ -15,13 +16,16 @@ cplxfnc.o: cplxfnc.cpp
 
 .PHONY: check
 check:
-	./cplxfnc_check
+	./$(exec_check)
+
 
 .PHONY: clean
 clean:
 	rm -v -rf *.o *.so *.log
 	rm -v -rf config.h config.status
 	rm -v -rf autom4te.cache
+	rm -v -rf $(exec_check)
+
 
 .PHONY: install
 install:
