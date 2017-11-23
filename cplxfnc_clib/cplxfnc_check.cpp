@@ -159,12 +159,13 @@ int gamma_inc_simple_run()
 {
     std::cout << "gamma_inc_simple_run\n";
     std::complex<double> res;
-    res = cplxfnc::gamma_inc(1, 1, 1e-16, 1, true, 56);
-    res = cplxfnc::gamma_inc(0.1, 1, 1e-16, 1, true, 64);
-    res = cplxfnc::gamma_inc(0.1, 0, 1e-16, 1, true);
-    res = cplxfnc::gamma_inc(-0.1, 1, 1e-16, 1, true, 68);
-    res = cplxfnc::gamma_inc(+0.1, 5, 1e-16, 1, true, 72);
-    res = cplxfnc::gamma_inc(-0.1, 5, 1e-16, 1, true, 74);
+#define PREC 74
+    res = cplxfnc::gamma_inc( 1.0, 1, 1e-16, 1, true, PREC);
+    res = cplxfnc::gamma_inc( 0.1, 1, 1e-16, 1, true, PREC);
+    res = cplxfnc::gamma_inc( 0.1, 0, 1e-16, 1, true, PREC);
+    res = cplxfnc::gamma_inc(-0.1, 1, 1e-16, 1, true, PREC);
+    res = cplxfnc::gamma_inc(+0.1, 5, 1e-16, 1, true, PREC);
+    res = cplxfnc::gamma_inc(-0.1, 5, 1e-16, 1, true, PREC);
     return 0;
 }
 
@@ -190,7 +191,7 @@ int gamma_inc_check_values(){
 
     unsigned int limit = 2;
 
-    unsigned int num_values = 42;
+#define num_values 42
 
     double data [num_values][4] = {
             {+1.000000000000000056e-01, +0.000000000000000000e+00, +9.513507698668730583e+00, +0.000000000000000000e+00},
