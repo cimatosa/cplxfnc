@@ -29,6 +29,10 @@
 
 #define GAMMA_INC_DEFAULT_INIT_PREC 74
 
+extern "C" {
+  void libcplxfnc_is_present(void);
+}
+
 namespace cplxfnc {
 
 std::complex<double> zeta(std::complex<double> s, std::complex<double> a);

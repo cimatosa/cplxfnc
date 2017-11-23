@@ -36,6 +36,10 @@
 #include <iomanip>
 #include <string>
 
+extern "C" {
+  void libcplxfnc_is_present(void) {}
+}
+
 namespace cplxfnc {
 
 // ##################################################
