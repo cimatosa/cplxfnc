@@ -10,4 +10,9 @@ z=-3.4
 gamma_inc = cplxfnc.gamma_inc(s, z)
 print("gamma_inc({}, {}) = {}".format(s, z, gamma_inc))
 
-gamma_inc = cplxfnc.gamma_inc(s, 0)
+try:
+    gamma_inc = cplxfnc.gamma_inc(s, 0)
+except RuntimeError:
+    pass
+else:
+    assert False

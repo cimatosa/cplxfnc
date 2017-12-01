@@ -5,10 +5,9 @@ cdef extern from "stdbool.h":
 
 cdef extern from "../cplxfnc_clib/cplxfnc.hpp" namespace "cplxfnc":
     int zeta(double complex s, double complex a, double complex *res, double tol,
-             unsigned int limit, bool verbose);
+             unsigned int limit, bool verbose)
     int gamma_inc(double complex s, double complex z, double complex *res, double tol,
-                  unsigned int limit, bool verbose);
-
+                  unsigned int limit, bool verbose)
 
 def py_zeta(double complex s, double complex a, double tol=1e-16, unsigned int limit=5, bool verbose=False):
     cdef double complex res
