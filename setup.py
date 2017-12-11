@@ -19,7 +19,7 @@ def check_for_lib(*names):
             break
 
     if lib_found is None:
-        raise RuntimeError("shared library '{}' not found".format(name))
+        raise RuntimeError("shared library '{}' not found".format(n))
     return lib_found
 
 libraries = []
