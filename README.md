@@ -1,6 +1,7 @@
 cplxfnc -- special functions with complex arguments based on arb library
 ========================================================================
 
+![Travis CI][https://travis-ci.org/cimatosa/cplxfnc.svg?branch=master] ![codecov][https://codecov.io/gh/cimatosa/cplxfnc/branch/master/graph/badge.svg]
 
 This library allows to evaluate special function with complex arguments up to double precision.
 The arb library (http://arblib.org) is used behind the scenes which allows for correct error estimation. The internal precision
