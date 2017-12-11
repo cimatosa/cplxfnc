@@ -36,6 +36,10 @@ linux package `libflint-arb`).
 
     python setup.py build
     python setup.py install
+
+To check if things are working correctly, make sure `pytest` and `mpmath` are installed and type
+
+    py.test
     
 ## example
 

@@ -7,7 +7,7 @@ author      = "Richard Hartmann"
 authors     = [author]
 description = 'special functions with complex arguments - wrapped for python'
 name        = 'cplxfnc'
-version     = '0.1'
+version     = '0.1.1'
 
 def check_for_lib(*names):
     lib_found = None
