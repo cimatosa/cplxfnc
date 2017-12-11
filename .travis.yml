@@ -16,12 +16,21 @@ before_install:
 - which python
 - python --version
 - sudo apt-get update
-- sudo apt-get install libflint-dev libgmp-dev libmpfr-dev
+- sudo apt-get install libgmp-dev libmpfr-dev
+
+- git clone https://github.com/fredrik-johansson/flint2.git
+- cd flint2
+- ./configure
+- make
+- sudo make install
+- cd ..
+
 - git clone https://github.com/fredrik-johansson/arb.git
 - cd arb
 - ./configure
 - make
 - sudo make install
+- cd ..
 
 install:
 - pip install mpmath
