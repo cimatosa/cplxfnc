@@ -17,14 +17,12 @@ before_install:
 - python --version
 - sudo apt-get update
 - sudo apt-get install libgmp-dev libmpfr-dev
-
 - git clone https://github.com/fredrik-johansson/flint2.git
 - cd flint2
 - ./configure
 - make
 - sudo make install
 - cd ..
-
 - git clone https://github.com/fredrik-johansson/arb.git
 - cd arb
 - ./configure
@@ -43,7 +41,6 @@ install:
 
 script:
 - py.test tests/ -v --cov=progression --cov-report term-missing
-
 
 after_success:
 - bash <(curl -s https://codecov.io/bash)
