@@ -74,35 +74,26 @@ int zeta(std::complex<double> s, std::complex<double> a, std::complex<double> * 
 
 //    std::cout << "zeta: " << s << " , " << a << " ... ";
 
-    double zeta_re, zeta_re_err, zeta_im, zeta_im_err, frac_re, frac_im;
+    double zeta_re, zeta_im;
+    slong err_bits, err_bits_ref;
+    err_bits_ref = slong(log2(tol));
 
     while (1) {
         acb_hurwitz_zeta(_z, _s, _a, prec);
-
-        arb_ptr re = acb_realref(_z);
-//        acb_print(_z);
-//        std::cout << std::endl;
-        zeta_re     = arf_get_d(arb_midref(re), ARF_RND_NEAR);
-        zeta_re_err = mag_get_d(arb_radref(re));
-
-        arb_ptr im = acb_imagref(_z);
-        zeta_im     = arf_get_d(arb_midref(im), ARF_RND_NEAR);
-        zeta_im_err = mag_get_d(arb_radref(im));
-
-        if ((zeta_im == 0) && (zeta_im_err == 0)) {
-            frac_im = 0;
-        } else {
-            frac_im = fabs(zeta_im_err) / fabs(zeta_im);
-        }
-        if ((zeta_re == 0) && (zeta_re_err == 0)) {
-            frac_re = 0;
-        } else {
-            frac_re = fabs(zeta_re_err) / fabs(zeta_re);
-        }
-
-        if ( (frac_im < tol) && (frac_re < tol) ) {
+        
+        err_bits =  acb_rel_error_bits(_z);
+        if (verbose) {
+            std::cerr << std::setprecision(1) << std::fixed <<
+            "zeta(s, a) with s=" << s << " and a=" << a << std::endl <<
+            std::scientific << std::setprecision(2) <<
+            "tol (bits)     : " << err_bits_ref << std::endl <<
+            "rel_err (bits) : " << err_bits << std::endl;
+        }        
+        
+        if (err_bits <= err_bits_ref) {
+            zeta_re = arf_get_d(arb_midref(acb_realref(_z)), ARF_RND_NEAR);
+            zeta_im = arf_get_d(arb_midref(acb_imagref(_z)), ARF_RND_NEAR);
             acb_clear(_z); acb_clear(_s); acb_clear(_a);
-//            std::cout << std::complex<double>(zeta_re, zeta_im) << std::endl;
             *res = std::complex<double>(zeta_re, zeta_im);
             return 0;
         }
@@ -114,10 +105,8 @@ int zeta(std::complex<double> s, std::complex<double> a, std::complex<double> * 
                 std::setprecision(1) << std::fixed <<
                 "zeta(s, a) with s=" << s << " and a=" << a << std::endl <<
                 std::scientific << std::setprecision(2) <<
-                "tol: " << tol << std::endl <<
-                std::scientific << std::setprecision(16) <<
-                "re : " << zeta_re << " +/- " << zeta_re_err << "  ->  frac: " << frac_re << std::endl <<
-                "im : " << zeta_im << " +/- " << zeta_im_err << "  ->  frac: " << frac_im << std::endl;
+                "tol (bits)     : " << err_bits_ref << std::endl <<
+                "rel_err (bits) : " << err_bits << std::endl;
             }
             return -1;
         }
@@ -172,31 +161,25 @@ int gamma_inc(std::complex<double> s, std::complex<double> z, std::complex<doubl
 
     unsigned int prec = init_prec;
     unsigned int c = 1;
-    double res_re, res_re_err, res_im, res_im_err, frac_re, frac_im;
+    double res_re, res_im;
+    slong err_bits, err_bits_ref;
+    err_bits_ref = slong(log2(tol));
 
     while (1) {
         acb_hypgeom_gamma_upper(_res, _s, _z, 0, prec);   //
-
-        arb_ptr re = acb_realref(_res);
-        res_re     = arf_get_d(arb_midref(re), ARF_RND_NEAR);
-        res_re_err = mag_get_d(arb_radref(re));
-
-        arb_ptr im = acb_imagref(_res);
-        res_im     = arf_get_d(arb_midref(im), ARF_RND_NEAR);
-        res_im_err = mag_get_d(arb_radref(im));
-
-        if ((res_im == 0) && (res_im_err == 0)) {
-            frac_im = 0;
-        } else {
-            frac_im = fabs(res_im_err) / fabs(res_im);
+        
+        err_bits =  acb_rel_error_bits(_res);
+        if (verbose) {
+            std::cout << "gamma(s, z) with s=" << s << " and z=" << z << std::endl <<
+            "internal prec: " << prec << std::endl <<
+            std::scientific << std::setprecision(2) <<
+            "tol (bits)     : " << err_bits_ref << std::endl <<
+            "rel_err (bits) : " << err_bits << std::endl;
         }
-        if ((res_re == 0) && (res_re_err == 0)) {
-            frac_re = 0;
-        } else {
-            frac_re = fabs(res_re_err) / fabs(res_re);
-        }
-
-        if ( (frac_im < tol) && (frac_re < tol) ) {
+        
+        if (err_bits <= err_bits_ref) {
+            res_re     = arf_get_d(arb_midref(acb_realref(_res)), ARF_RND_NEAR);
+            res_im     = arf_get_d(arb_midref(acb_imagref(_res)), ARF_RND_NEAR);
             acb_clear(_res); acb_clear(_s); acb_clear(_z);
             *res = std::complex<double>(res_re, res_im);
             return 0;
@@ -209,24 +192,10 @@ int gamma_inc(std::complex<double> s, std::complex<double> z, std::complex<doubl
                 "gamma(s, z) with s=" << s << " and z=" << z << std::endl <<
                 "internal prec: " << prec << std::endl <<
                 std::scientific << std::setprecision(2) <<
-                "tol: " << tol << std::endl <<
-                std::scientific << std::setprecision(16) <<
-                "re : " << res_re << " +/- " << res_re_err << "  ->  frac: " << frac_re << std::endl <<
-                "im : " << res_im << " +/- " << res_im_err << "  ->  frac: " << frac_im << std::endl;
+                "tol (bits)     : " << err_bits_ref << std::endl <<
+                "rel_err (bits) : " << err_bits << std::endl;
             }
             return -1;
-        } else {
-            if (verbose) {
-                std::cout << "gamma(s, z) with s=" << s << " and z=" << z << std::endl <<
-                "internal prec: " << prec << std::endl <<
-                std::scientific << std::setprecision(2) <<
-                "tol: " << tol << std::endl <<
-                std::scientific << std::setprecision(16) <<
-                "re : " << res_re << " +/- " << res_re_err << "  ->  frac: " << frac_re << std::endl <<
-                "im : " << res_im << " +/- " << res_im_err << "  ->  frac: " << frac_im << std::endl;
-                std::cout << "new internal prec: " << prec << std::endl;
-
-            }
         }
         prec *= 2;
 

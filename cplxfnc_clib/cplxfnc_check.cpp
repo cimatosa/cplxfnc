@@ -44,7 +44,7 @@ int check_values(){
     unsigned int limit = 1;
 
     try {
-        res = cplxfnc::zeta(2., 1. - I*1234., tol, limit, true);
+        res = cplxfnc::zeta(2., 1. - I*1234., tol, limit, false);
     } catch  (const std::runtime_error& e) {
         std::cout << "\nI guess you have arb version prior to 2.9. installed" <<
                      "\nupdating yields a slight efficiency improvement!\n";
@@ -75,7 +75,7 @@ int check_values(){
         a         = data[i][2] + I*data[i][3];
         res_check = data[i][4] + I*data[i][5];
 
-        res = cplxfnc::zeta(s, a, tol, limit, true);
+        res = cplxfnc::zeta(s, a, tol, limit, false);
         d = fabs(res.real() - res_check.real());
         if (d > tol){
             std::cout << "\nERROR (real part)\n" <<
@@ -159,7 +159,7 @@ int gamma_inc_simple_run()
 {
     std::cout << "gamma_inc_simple_run\n";
     std::complex<double> res;
-#define PREC 74
+#define PREC 75
     res = cplxfnc::gamma_inc( 1.0, 1, 1e-16, 1, true, PREC);
     res = cplxfnc::gamma_inc( 0.1, 1, 1e-16, 1, true, PREC);
     res = cplxfnc::gamma_inc( 0.1, 0, 1e-16, 1, true, PREC);
@@ -320,7 +320,52 @@ int gamma_inc_check_call_error()
     return 0;
 }
 
+int gamma_inc_large_values()
+{
+    std::cout << "gamma_inc_large_values ... ";
 
+    std::complex<double> res, s, z, res_check;
+    double tol = 1e-16;
+    const std::complex<double> I(0, 1);
+    int status;
+
+    s = -0.5; z = 1e8;
+    status = cplxfnc::gamma_inc(s, z, &res, tol, 5, false, 12);
+    if (status) {
+        std::cout << "\nERROR (gamma_inc failed for large value)\n" <<
+        "expect gamma_inc to raise runtime_error exception!" << std::endl;
+        return -1;
+    }
+    
+    s = -0.5; z = 1e8 + I;
+    status = cplxfnc::gamma_inc(s, z, &res, tol, 5, false, 12);
+    if (status) {
+        std::cout << "\nERROR (gamma_inc failed for large value)\n" <<
+        "expect gamma_inc to raise runtime_error exception!" << std::endl;
+        return -1;
+    }
+    
+    s = 0.5; z = 1e8;
+    status = cplxfnc::gamma_inc(s, z, &res, tol, 5, false, 12);
+    if (status) {
+        std::cout << "\nERROR (gamma_inc failed for large value)\n" <<
+        "expect gamma_inc to raise runtime_error exception!" << std::endl;
+        return -1;
+    }
+    
+    s = 0.5; z = 1e8 + I;
+    status = cplxfnc::gamma_inc(s, z, &res, tol, 5, false, 12);
+    if (status) {
+        std::cout << "\nERROR (gamma_inc failed for large value)\n" <<
+        "expect gamma_inc to raise runtime_error exception!" << std::endl;
+        return -1;
+    }    
+    
+    
+    std::cout << "done\n";
+    return 0;
+
+}
 
 int main(){
     std::cout << "\nrun tests for cplxfnc library\n";
@@ -335,6 +380,7 @@ int main(){
     if (gamma_inc_check_call_overloads()) return -1;
     if (gamma_inc_check_call_error()) return -1;
     if (gamma_inc_check_values()) return -1;
+    if (gamma_inc_large_values()) return -1;
 
 
     return 0;

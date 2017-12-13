@@ -27,7 +27,7 @@
 
 #include <complex>
 
-#define GAMMA_INC_DEFAULT_INIT_PREC 74
+#define GAMMA_INC_DEFAULT_INIT_PREC 75
 
 extern "C" {
   void libcplxfnc_is_present(void);
