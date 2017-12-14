@@ -160,12 +160,12 @@ int gamma_inc_simple_run()
     std::cout << "gamma_inc_simple_run\n";
     std::complex<double> res;
 #define PREC 75
-    res = cplxfnc::gamma_inc( 1.0, 1, 1e-16, 1, true, PREC);
-    res = cplxfnc::gamma_inc( 0.1, 1, 1e-16, 1, true, PREC);
-    res = cplxfnc::gamma_inc( 0.1, 0, 1e-16, 1, true, PREC);
-    res = cplxfnc::gamma_inc(-0.1, 1, 1e-16, 1, true, PREC);
-    res = cplxfnc::gamma_inc(+0.1, 5, 1e-16, 1, true, PREC);
-    res = cplxfnc::gamma_inc(-0.1, 5, 1e-16, 1, true, PREC);
+    res = cplxfnc::gamma_inc( 1.0, 1, 1e-16, 1, false, PREC);
+    res = cplxfnc::gamma_inc( 0.1, 1, 1e-16, 1, false, PREC);
+    res = cplxfnc::gamma_inc( 0.1, 0, 1e-16, 1, false, PREC);
+    res = cplxfnc::gamma_inc(-0.1, 1, 1e-16, 1, false, PREC);
+    res = cplxfnc::gamma_inc(+0.1, 5, 1e-16, 1, false, PREC);
+    res = cplxfnc::gamma_inc(-0.1, 5, 1e-16, 1, false, PREC);
     return 0;
 }
 
@@ -243,7 +243,7 @@ int gamma_inc_check_values(){
         z         = data[i][1];
         res_check = data[i][2] + I*data[i][3];
 
-        res = cplxfnc::gamma_inc(s, z, tol, limit);
+        res = cplxfnc::gamma_inc(s, z, tol, limit, false);
         d = fabs(res.real() - res_check.real());
         if (d > tol){
             std::cout << "\nERROR (real part)\n" <<
@@ -324,7 +324,7 @@ int gamma_inc_large_values()
 {
     std::cout << "gamma_inc_large_values ... ";
 
-    std::complex<double> res, s, z, res_check;
+    std::complex<double> res, s, z;
     double tol = 1e-16;
     const std::complex<double> I(0, 1);
     int status;
@@ -332,32 +332,28 @@ int gamma_inc_large_values()
     s = -0.5; z = 1e8;
     status = cplxfnc::gamma_inc(s, z, &res, tol, 5, false, 12);
     if (status) {
-        std::cout << "\nERROR (gamma_inc failed for large value)\n" <<
-        "expect gamma_inc to raise runtime_error exception!" << std::endl;
+        std::cout << "\nERROR (gamma_inc failed for large value)\n" << std::endl;
         return -1;
     }
     
     s = -0.5; z = 1e8 + I;
     status = cplxfnc::gamma_inc(s, z, &res, tol, 5, false, 12);
     if (status) {
-        std::cout << "\nERROR (gamma_inc failed for large value)\n" <<
-        "expect gamma_inc to raise runtime_error exception!" << std::endl;
+        std::cout << "\nERROR (gamma_inc failed for large value)\n" << std::endl;
         return -1;
     }
     
     s = 0.5; z = 1e8;
     status = cplxfnc::gamma_inc(s, z, &res, tol, 5, false, 12);
     if (status) {
-        std::cout << "\nERROR (gamma_inc failed for large value)\n" <<
-        "expect gamma_inc to raise runtime_error exception!" << std::endl;
+        std::cout << "\nERROR (gamma_inc failed for large value)\n" << std::endl;
         return -1;
     }
     
     s = 0.5; z = 1e8 + I;
     status = cplxfnc::gamma_inc(s, z, &res, tol, 5, false, 12);
     if (status) {
-        std::cout << "\nERROR (gamma_inc failed for large value)\n" <<
-        "expect gamma_inc to raise runtime_error exception!" << std::endl;
+        std::cout << "\nERROR (gamma_inc failed for large value)\n" << std::endl;
         return -1;
     }    
     
@@ -365,6 +361,44 @@ int gamma_inc_large_values()
     std::cout << "done\n";
     return 0;
 
+}
+
+int u_asymp_simple_run() {
+    std::cout << "u_asymp_simple_run ... ";
+
+    std::complex<double> res, a, b, z;
+    double tol = 1e-16;
+    const std::complex<double> I(0, 1);
+    int status;
+    double s;
+
+    s = 0.5; z = 1e8;
+    status = cplxfnc::u_asymp(1-s, 1-s, z, &res, tol, 5, false, 56);
+    if (status) {
+        std::cout << "\nERROR (u_asymp failed)" << std::endl;
+        return -1;
+    }
+    
+    s = -0.5; z = -50.-1e-8*I;
+    status = cplxfnc::u_asymp(1-s, 1-s, z, &res, tol, 5, false, 56);
+    if (status) {
+        std::cout << "\nERROR (u_asymp failed)" << std::endl;
+        return -1;
+    }
+    
+    a = 0.4;
+    b = 0.4;
+    z = 50.;
+    
+    status = cplxfnc::u_asymp(a, b, z, &res, tol, 5, false, 56);
+    if (status) {
+        std::cout << "\nERROR (u_asymp failed)" << std::endl;
+        return -1;
+    }
+    
+    std::cout << "done\n";
+    
+    return 0;
 }
 
 int main(){
@@ -381,6 +415,7 @@ int main(){
     if (gamma_inc_check_call_error()) return -1;
     if (gamma_inc_check_values()) return -1;
     if (gamma_inc_large_values()) return -1;
+    if (u_asymp_simple_run()) return -1;
 
 
     return 0;
