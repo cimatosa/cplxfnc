@@ -34,8 +34,6 @@
 // ##################################################
 
 int check_values(){
-    std::cout << "check values ... ";
-
     std::complex<double> res, s, a, res_check;
     double d;
     double tol = 1e-16;

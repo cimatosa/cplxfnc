@@ -28,6 +28,9 @@
 #include "arb.h"
 #include "arf.h"
 #include "acb_hypgeom.h"
+#include "flint/flint.h"
+
+static_assert(__FLINT_VERSION == 2, "requires flint version 2");
 
 #include <complex>
 #include <cmath>
@@ -57,7 +60,7 @@ std::complex<double> zeta(std::complex<double> s, std::complex<double> a, double
     int status = zeta(s, a, &res, tol, limit, verbose, init_prec);
     if (status) {
         std::ostringstream oss;
-        oss << "zeta did not converge for s=" << s << " and a=" << a << " , try dec. tol or inc. limit";
+        oss << "LIMIT ERROR: zeta s=" << s << " and a=" << a;
         throw std::runtime_error(oss.str());
     } else {
         return res;
@@ -80,7 +83,7 @@ int zeta(std::complex<double> s, std::complex<double> a, std::complex<double> * 
 
     while (1) {
         acb_hurwitz_zeta(_z, _s, _a, prec);
-        
+
         err_bits =  acb_rel_error_bits(_z);
         if (verbose) {
             std::cerr << std::setprecision(1) << std::fixed <<
@@ -128,10 +131,10 @@ std::complex<double> gamma_inc(std::complex<double> s, std::complex<double> z, d
     if (status) {
         std::ostringstream oss;
         if (status == -1) {
-            oss << "gamma_inc did not converge for s=" << s << " and z=" << z << " , try dec. tol or inc. limit";
+            oss << "LIMIT ERROR: gamma_inc s=" << s << " and z=" << z;
             throw std::runtime_error(oss.str());
         } else if (status == -2) {
-            oss << "gamma_inc value error: if Re(s) < 0 then z must not be zero!";
+            oss << "VALUE ERROR: gamma_inc, if Re(s) < 0 then z must not be zero!";
             throw std::runtime_error(oss.str());
         } else {
             oss << "gamma_inc unknown error: error code: " << status;
@@ -219,7 +222,9 @@ int u_asymp(std::complex<double> a, std::complex<double> b, std::complex<double>
     err_bits_ref = slong(log2(tol));
     
     if (not acb_hypgeom_u_use_asymp(_z, -err_bits_ref)) {
-        std::cerr << "ERROR: u_asymp can not be evaluated for the given tolerence\n" <<
+        std::cerr << "ERROR: u_asymp can not be evaluated for the given tolerence, this is a property of u_asymp!\n" <<
+        "z:" << z << " tol:" << tol << " err_bits_ref:" << err_bits_ref << "\n" <<
+        "acb_hypgeom_u_use_asymp(z, -err_bits_ref) failed\n"
         "increase z or decrease tol!\n";
         return -2;
     }
@@ -266,10 +271,10 @@ std::complex<double> u_asymp(std::complex<double> a, std::complex<double> b, std
     if (status) {
         std::ostringstream oss;
         if (status == -1) {
-            oss << "u_asymp(a, b, z) with a=" << a << " and b=" << b << " and z=" << z;
+            oss << "LIMIT ERROR: u_asymp(a, b, z) with a=" << a << " and b=" << b << " and z=" << z;
             throw std::runtime_error(oss.str());
         } else if (status == -2) {
-            oss << "ERROR: u_asymp can not be evaluated for the given tolerence, increase z or decrease tol!";
+            oss << "VALUE ERROR: u_asymp can not be evaluated for the given (z, tolerence). This is a property of u_asymp! Increase z or decrease tol!";
             throw std::runtime_error(oss.str());
         } else {
             oss << "u_asymp unknown error: error code: " << status;
