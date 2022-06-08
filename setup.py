@@ -20,6 +20,10 @@ def try_to_install(names):
     return False
 
 def install_arb():
+
+    print("install: apt-get install libflint-arb2 libflint-arb-dev")
+    assert False
+
     r = input("Do you want to download, build and install arb 2.15.0 from https://github.com/fredrik-johansson/arb? [y/n]")
     if r != 'y':
         return False
